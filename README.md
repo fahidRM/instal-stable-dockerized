@@ -45,12 +45,15 @@ Using this image you would need to do a few modifications as shown below (this i
 `docker run -v ~/Desktop/greetings:/workdir instal-stable solve $* -i /workdir/greeting.ial -f /workdir/fact-greeting.iaf -d /workdir/domain-greeting.idc -q /workdir/rude.iaq -v`
 
 First of all, you need to note that docker containers are isolations so you need to bind a folder in your harddisk to one within the container to pass files across. In this case, the `greetings` folder on my desktop has been bound to a folder I am calling `workdir` in the instal-stable container.
-
+   
 | :exclamation:  when using WSL, mounting volumes using a path like `/mnt/c/..` [won't work](https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly#ensure-volume-mounts-work) as docker is expecting a path without `/mnt`  |
 |:-----------------------------------------|
 | :x: `docker run -v /mnt/c/Users/user/Desktop/greetings:/workdir instal-stable ...` :x: |
 | :heavy_check_mark: `docker run -v /c/Users/user/Desktop/greetings:/workdir instal-stable ...` :heavy_check_mark: |
 
+<details>
+  <summary>updating root dir </summary>
+   
 > Create and modify the new WSL configuration file:
 > ``` bash
 > sudo nano /etc/wsl.conf
@@ -62,6 +65,8 @@ First of all, you need to note that docker containers are isolations so you need
 > ```
 > We need to set `root = /` because this will make your drives mounted at `/c` or `/e` instead of `/mnt/c` or `/mnt/e`.
 > Once you make those changes, sign out and sign back in to Windows to ensure the changes take effect. Win + L isn’t enough. You’ll need to do a full blown sign out / sign in.
+
+</details>
 
 `docker run` creates a container out of the specified image
 
